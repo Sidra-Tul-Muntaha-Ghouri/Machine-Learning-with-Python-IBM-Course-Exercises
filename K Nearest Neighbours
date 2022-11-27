@@ -1,5 +1,36 @@
-#K Nearest Neighbours
-```Python
 import pandas as pd
-```
-`import pandas as pd`
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+from sklearn import preprocessing
+%matplotlib inline
+
+from pyodide.http import pyfetch
+
+async def download(url, filename):
+    response = await pyfetch(url)
+    if response.status == 200:
+        with open(filename, "wb") as f:
+            f.write(await response.bytes())
+
+path="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-ML0101EN-SkillsNetwork/labs/Module%203/data/teleCust1000t.csv"
+
+await download(path, 'teleCust1000t.csv')
+
+df = pd.read_csv('teleCust1000t.csv')
+df.head()
+
+ ## Data Visualization and Analysis
+df['custcat'].value_counts()
+
+df.hist(column='income', bins=50)
+
+## Feature set
+df.columns
+
+X = df[['region', 'tenure','age', 'marital', 'address', 'income', 'ed', 'employ','retire', 'gender', 'reside']] .values  #.astype(float)
+X[0:5]
+
+y = df['custcat'].values
+y[0:5]
